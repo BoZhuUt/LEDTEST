@@ -22,11 +22,9 @@
 #include "main.h"
 #include "adc.h"
 #include "spi.h"
+#include "tim.h"
 #include "usart.h"
 #include "gpio.h"
-#include "LTC2630ISC6.h"
-#include "pd.h"
-#include "led.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -69,7 +67,7 @@ void vDelay(uint32_t ulTim)
 	}while(--ulTim);
 }
 /* USER CODE END 0 */
-__IO float value;
+
 /**
   * @brief  The application entry point.
   * @retval int
@@ -101,8 +99,9 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_ADC1_Init();
- // MX_SPI1_Init();
+  MX_SPI1_Init();
   MX_USART2_UART_Init();
+  MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
 //	HAL_SPI_MspInit(&hspi1);
   /* USER CODE END 2 */
