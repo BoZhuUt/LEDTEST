@@ -15,6 +15,7 @@
 //#define PD_9SWITCH ADC_CHANNEL_0
 //#define PD_10SWITCH ADC_CHANNEL_6
 
+/*
 enum
 {
 	PD_1SWITCH = ADC_CHANNEL_10,
@@ -28,8 +29,11 @@ enum
 	PD_9SWITCH = ADC_CHANNEL_0,
 	PD_10SWITCH = ADC_CHANNEL_6,	
 };
+*/
+//void PD_SWITCH(uint8_t ch);
+float Get_ADC_volage(uint16_t n);
+uint32_t Get_PD_Vol(void);
 
-void PD_SWITCH(uint8_t ch);
 
 
 #endif

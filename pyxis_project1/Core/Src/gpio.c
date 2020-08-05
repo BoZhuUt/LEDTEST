@@ -48,19 +48,18 @@ void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(DAC_2630_CS_GPIO_Port, DAC_2630_CS_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(DAC_2630_CS_GPIO_Port, DAC_2630_CS_Pin|SPI1_CLK_2630_Pin|SPI1_MOSI_2630_Pin|GPIO_PIN_8, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, LED_SWITCH1_Pin|LED_SWITCH2_Pin|LED_SWITCH3_Pin|LED_SWITCH4_Pin 
                           |LED_SWITCH5_Pin|LED_SWITCH6_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : PtPin */
-  GPIO_InitStruct.Pin = DAC_2630_CS_Pin|SPI1_CLK_2630_Pin|SPI1_MOSI_2630_Pin;
+  GPIO_InitStruct.Pin = DAC_2630_CS_Pin|SPI1_CLK_2630_Pin|SPI1_MOSI_2630_Pin|GPIO_PIN_8;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-	
+  HAL_GPIO_Init(DAC_2630_CS_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PBPin PBPin PBPin PBPin 
                            PBPin PBPin */

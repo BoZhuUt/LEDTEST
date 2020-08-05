@@ -24,9 +24,9 @@
 #include "spi.h"
 #include "usart.h"
 #include "gpio.h"
-#include "led.h"
 #include "LTC2630ISC6.h"
-#include "value.h"
+#include "pd.h"
+#include "led.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -61,9 +61,15 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+void vDelay(uint32_t ulTim)
+{
+	do
+	{
+		__NOP();
+	}while(--ulTim);
+}
 /* USER CODE END 0 */
-
+__IO float value;
 /**
   * @brief  The application entry point.
   * @retval int
@@ -74,7 +80,7 @@ int main(void)
 	uint8_t i;
 	float avg_value[10];
   /* USER CODE END 1 */
-	
+
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
@@ -94,10 +100,9 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  //MX_ADC1_Init();
+  MX_ADC1_Init();
  // MX_SPI1_Init();
   MX_USART2_UART_Init();
- // MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
 //	HAL_SPI_MspInit(&hspi1);
   /* USER CODE END 2 */
@@ -108,44 +113,11 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-//		for(i=8;i<10;i++)
-//		{
-//			LED_SWITCH(i);
-////			PD_SWITCH(i);
-////			HAL_Delay(10);
-//			
-////			adc_get_avg(5,avg_value,i);
-//			HAL_Delay(500);
-//			//TURN_OFF_LED();
-//		}
-		LED_SWITCH(8);
-		HAL_Delay(500);
-		LED_SWITCH(9);
-		HAL_Delay(500);
+
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
 }
-
-//uint8_t HAL_IS_BIT_SET 
-//#define HAL_IS_BIT_SET(x , y) ()
-
-//uint16_t vTest(void)
-//{
-//	uint16_t AD_Value = 0;
-//	HAL_ADC_Start(&hadc1);
-//	HAL_ADC_PollForConversion(&hadc1,10);    //等待转换完成，第二个参数表示超时时间，单位ms        
-////	if(HAL_IS_BIT_SET(HAL_ADC_GetState(&hadc1), HAL_ADC_STATE_REG_EOC))
-////	{
-////			AD_Value = HAL_ADC_GetValue(&hadc1);
-////	}   
-//	do
-//	{
-//		__NOP();
-//	}while(HAL_IS_BIT_SET(HAL_ADC_GetState(&hadc1), HAL_ADC_STATE_REG_EOC) == RESET);
-//	AD_Value = HAL_ADC_GetValue(&hadc1);
-//  return AD_Value;						
-//}
 
 /**
   * @brief System Clock Configuration
@@ -225,40 +197,3 @@ void assert_failed(uint8_t *file, uint32_t line)
 #endif /* USE_FULL_ASSERT */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
-
-
-///*##-2- Configure ADC regular channel ######################################*/  
-//  sConfig.Channel      = ADCx_CHANNEL;
-//  sConfig.Rank         = 1;
-//  sConfig.SamplingTime = ADC_SAMPLETIME_3CYCLES;
-//  sConfig.Offset       = 0;
-//  
-//  if(HAL_ADC_ConfigChannel(&AdcHandle, &sConfig) != HAL_OK)
-//  {
-//    /* Channel Configuration Error */
-//    Error_Handler();
-//  }
-//  
-
-//  /*##-3- Start the conversion process #######################################*/  
-//  if(HAL_ADC_Start(&AdcHandle) != HAL_OK)
-//  {
-//    /* Start Conversation Error */
-//    Error_Handler();
-//  }
-//  
-//  /*##-4- Wait for the end of conversion #####################################*/  
-//   /*  Before starting a new conversion, you need to check the current state of 
-//        the peripheral; if it抯 busy you need to wait for the end of current
-//        conversion before starting a new one.
-//        For simplicity reasons, this example is just waiting till the end of the 
-//        conversion, but application may perform other tasks while conversion 
-//        operation is ongoing. */
-//  HAL_ADC_PollForConversion(&AdcHandle, 10);
-//  
-//  /* Check if the continuous conversion of regular channel is finished */
-//  if((HAL_ADC_GetState(&AdcHandle) & HAL_ADC_STATE_EOC_REG) == HAL_ADC_STATE_EOC_REG)
-//  {
-//    /*##-5- Get the converted value of regular channel #######################*/
-//    uhADCxConvertedValue = HAL_ADC_GetValue(&AdcHandle);
-//  }

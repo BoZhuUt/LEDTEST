@@ -34,22 +34,22 @@ void MX_ADC1_Init(void)
   /** Common config 
   */
   hadc1.Instance = ADC1;
-  hadc1.Init.ScanConvMode = ADC_SCAN_DISABLE;
+  hadc1.Init.ScanConvMode = ADC_SCAN_ENABLE;
   hadc1.Init.ContinuousConvMode = DISABLE;
-  hadc1.Init.DiscontinuousConvMode = DISABLE;
-//  hadc1.Init.NbrOfDiscConversion = 1;
+  hadc1.Init.DiscontinuousConvMode = ENABLE;
+  hadc1.Init.NbrOfDiscConversion = 1;
   hadc1.Init.ExternalTrigConv = ADC_SOFTWARE_START;
   hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
-  hadc1.Init.NbrOfConversion = 1;
-//  if (HAL_ADC_Init(&hadc1) != HAL_OK)
-//  {
-//    Error_Handler();
-//  }
+  hadc1.Init.NbrOfConversion = 10;
+  if (HAL_ADC_Init(&hadc1) != HAL_OK)
+  {
+    Error_Handler();
+  }
 //  /** Configure Regular Channel 
 //  */
 //  sConfig.Channel = ADC_CHANNEL_10;
 //  sConfig.Rank = ADC_REGULAR_RANK_1;
-//  sConfig.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
+//  sConfig.SamplingTime = ADC_SAMPLETIME_71CYCLES_5;
 //  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
 //  {
 //    Error_Handler();
@@ -212,17 +212,52 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
 } 
 
 /* USER CODE BEGIN 1 */
-void vADCSwitchCH(uint32_t ulCH)
+void ADC_Channel_SWitch(uint32_t ch)
 {
+	uint32_t ADC_CHANNEL_x;
+	switch(ch)
+	{
+		case 0://说明要选用第一个次序的通道
+			ADC_CHANNEL_x=ADC_CHANNEL_10;
+			break;
+		case 1://说明要选用第二个次序的通道
+			ADC_CHANNEL_x=ADC_CHANNEL_11;
+			break;
+		case 2://说明要选用第三个次序的通道
+			ADC_CHANNEL_x=ADC_CHANNEL_12;
+			break;
+		case 3://说明要选用第四个次序的通道
+			ADC_CHANNEL_x=ADC_CHANNEL_13;
+			break;
+		case 4://说明要选用第一个次序的通道
+			ADC_CHANNEL_x=ADC_CHANNEL_14;
+			break;
+		case 5://说明要选用第一个次序的通道
+			ADC_CHANNEL_x=ADC_CHANNEL_15;
+			break;
+		case 6://说明要选用第一个次序的通道
+			ADC_CHANNEL_x=ADC_CHANNEL_8;
+			break;
+		case 7://说明要选用第一个次序的通道
+			ADC_CHANNEL_x=ADC_CHANNEL_9;
+			break;
+		case 8://说明要选用第一个次序的通道
+			ADC_CHANNEL_x=ADC_CHANNEL_0;
+			break;
+		case 9://说明要选用第一个次序的通道
+			ADC_CHANNEL_x=ADC_CHANNEL_6;
+			break;
+	}
+	
 	ADC_ChannelConfTypeDef sConfig = {0};
-  sConfig.Channel = ulCH;
-  sConfig.Rank = ADC_REGULAR_RANK_1;
-  sConfig.SamplingTime = ADC_SAMPLETIME_239CYCLES_5;
-  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)//这里是等待ADC通道的配置
+	sConfig.Channel = ADC_CHANNEL_x;
+	sConfig.Rank = ADC_REGULAR_RANK_1;
+	sConfig.SamplingTime = ADC_SAMPLETIME_239CYCLES_5;
+	if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
   {
     Error_Handler();
   }
-}
+}//这里我要做的是如何根据亮的灯来判断该开哪个通道
 
 //static void vADCStartCH(uint32_t ulCH, uint16_t *pusVal)
 //{
@@ -243,5 +278,3 @@ void vADCSwitchCH(uint32_t ulCH)
 /* USER CODE END 1 */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
-
-

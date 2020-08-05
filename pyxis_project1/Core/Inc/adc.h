@@ -31,7 +31,7 @@ extern void vADCPoll(void);
 extern void vADCStartCH(uint32_t ulCH, uint16_t *pusVal);
 extern void vADCSwitchCH(uint32_t ulCH);
 /* USER CODE END Includes */
-
+void ADC_Channel_SWitch(uint32_t ch);
 extern ADC_HandleTypeDef hadc1;
 
 /* USER CODE BEGIN Private defines */
